@@ -1,12 +1,17 @@
 FROM node:20
 
+
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
 
 COPY . .
 
-EXPOSE 3001
+
+RUN cd packages/db && npx prisma generate
+
+
+WORKDIR /app/apps/backend
+RUN npm install
+
 
 CMD ["npm", "start"]

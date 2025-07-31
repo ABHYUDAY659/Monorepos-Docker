@@ -1,19 +1,19 @@
-
 FROM node:20
-
 
 WORKDIR /app
 
+# Accept DATABASE_URL as a build argument
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 
 COPY package*.json ./
 RUN npm install
 
 COPY . .
 
+# Build Next.js app with access to DATABASE_URL
 RUN npm run build
 
-
 EXPOSE 3000
-
 
 CMD ["npm", "start"]
