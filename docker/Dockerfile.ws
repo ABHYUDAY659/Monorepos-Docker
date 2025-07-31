@@ -5,7 +5,8 @@ FROM node:20
 WORKDIR /app
 
 # Copy package files and install dependencies
-COPY apps/ws/package.json apps/ws/package-lock.json* ./
+COPY apps/websocket/package.json apps/websocket/package-lock.json* ./
+
 RUN npm install
 
 # Install global ts-node & typescript (optional, or add to devDependencies)

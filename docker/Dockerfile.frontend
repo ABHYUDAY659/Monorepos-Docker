@@ -1,18 +1,33 @@
-FROM node:20
+# Stage 1: Install dependencies and build
+FROM node:20 AS builder
+
+# Set working directory at the root of the monorepo
+WORKDIR /app
+
+# Copy full monorepo
+COPY . .
+
+# Set working directory to frontend app
+WORKDIR /app/apps/web
+
+# Install dependencies from root
+RUN npm install
+
+# Build the Next.js frontend
+RUN npm run build
+
+# Stage 2: Run the built app
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Accept DATABASE_URL as a build argument
-ARG DATABASE_URL
-ENV DATABASE_URL=${DATABASE_URL}
+# Copy the built app from builder
+COPY --from=builder /app/apps/web/.next .next
+COPY --from=builder /app/apps/web/public ./public
+COPY --from=builder /app/apps/web/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
 
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-
-# Build Next.js app with access to DATABASE_URL
-RUN npm run build
+ENV NODE_ENV=production
 
 EXPOSE 3000
 
