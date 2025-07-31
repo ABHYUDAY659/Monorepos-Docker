@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "moduleResolution": "bundler",
+    "module": "esnext",
+    "target": "esnext",
+    "esModuleInterop": true,
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
