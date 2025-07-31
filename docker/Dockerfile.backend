@@ -1,17 +1,18 @@
-FROM node:20
+# Start from Node base image
+FROM node:20-alpine
 
-
+# Set working directory
 WORKDIR /app
 
-
+# Copy entire monorepo into container
 COPY . .
 
-
+# Generate Prisma client in db package
 RUN cd packages/db && npx prisma generate
 
-
+# Move to backend app and install dependencies
 WORKDIR /app/apps/backend
 RUN npm install
 
-
-CMD ["npm", "start"]
+# Start the backend server
+CMD ["npm", "run", "start"]
