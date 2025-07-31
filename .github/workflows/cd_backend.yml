@@ -19,11 +19,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build backend image
-        run: |
-          docker build \
-            -f ./docker/Dockerfile.backend \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest \
-            ./apps/backend
+        run: docker build -f ./docker/Dockerfile.backend -t ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest ./apps/backend
 
       - name: Push backend image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
