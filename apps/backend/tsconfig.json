@@ -1,23 +1,14 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "module": "nodenext",
+    "module": "commonjs",
     "outDir": "dist",
     "rootDir": ".", 
     "lib": ["esnext"],
     "types": ["node"],
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
+    "esModuleInterop": true,
     "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true,
-    "jsx": "react-jsx",
-    "verbatimModuleSyntax": true
+    "skipLibCheck": true
   },
   "include": ["**/*.ts"],
   "exclude": ["dist", "node_modules"]
