@@ -14,5 +14,7 @@ RUN cd packages/db && npx prisma generate
 WORKDIR /app/apps/backend
 RUN npm install
 
+RUN npm run build
+
 # Start the backend server
 CMD ["npm", "run", "start"]
