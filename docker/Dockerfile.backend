@@ -1,21 +1,24 @@
-# Use Node 20 Alpine image
+# Start from Node base image
 FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy the entire monorepo
+# Copy the entire monorepo into the container
 COPY . .
 
-# Generate Prisma client
+# Install root-level dependencies if needed (optional)
+# RUN npm install
+
+# Step 1: Generate Prisma client
 RUN cd packages/db && npx prisma generate
 
-# Move to backend app and install dependencies
+# Step 2: Go to backend and install all dependencies (including devDeps like typescript)
 WORKDIR /app/apps/backend
 RUN npm install
 
-# Build the backend (for TypeScript)
-RUN npm run build
+# Step 3: Build the TypeScript project
+RUN npx tsc
 
-# Run the built JS file
+# Step 4: Run the compiled output (adjust main file name if different)
 CMD ["node", "dist/index.js"]
