@@ -4,21 +4,26 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy the entire monorepo into the container
+# Copy entire monorepo
 COPY . .
 
-# Install root-level dependencies if needed (optional)
-# RUN npm install
-
-# Step 1: Generate Prisma client
-RUN cd packages/db && npx prisma generate
-
-# Step 2: Go to backend and install all dependencies (including devDeps like typescript)
+# Install dependencies for the backend app
 WORKDIR /app/apps/backend
 RUN npm install
 
-# Step 3: Build the TypeScript project
+# Ensure TypeScript is installed (in case it's missing)
+RUN npm install --save-dev typescript @types/node
+
+# Compile TypeScript to JavaScript
 RUN npx tsc
 
-# Step 4: Run the compiled output (adjust main file name if different)
+# Generate Prisma client from shared db package
+WORKDIR /app/packages/db
+RUN npm install
+RUN npx prisma generate
+
+# Move back to backend build folder
+WORKDIR /app/apps/backend
+
+# Run the built backend (assuming outDir is dist/)
 CMD ["node", "dist/index.js"]
